@@ -36,9 +36,11 @@ const Search = () => {
             </SavedPlaces>
 
             {/* Confirm Location */}
-            <ConfirmLocation>
-                Confirm Locations
-            </ConfirmLocation>
+            <Link href="/Confirm">
+                <ConfirmButtonContainer>
+                    Confirm Locations
+                </ConfirmButtonContainer>
+            </Link>
         </Wrapper>
     )
 }
@@ -97,6 +99,6 @@ const StarIcon = tw.img`
     bg-gray-400 w-10 h-10 p-2 rounded-full mr-2
 `;
 
-const ConfirmLocation = tw.div`
-    bg-black text-white p-2 m-3 text-center cursor-pointer
+const ConfirmButtonContainer = tw.div`
+    bg-black text-white px-4 py-3 my-2 mx-4 text-center cursor-pointer text-xl
 `;
