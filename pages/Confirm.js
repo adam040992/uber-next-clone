@@ -1,31 +1,55 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import tw from "tailwind-styled-components";
 import Map from './components/Map'
 
 const Confirm = () => {
 
-    const getCoordinates = () => {
-        const location = "Santa Monica";
+    const [ pickupCoordinates, setPickupCoordinates ] = useState();
+    const [ dropoffCoordinates, setDropoffCoordinates ] = useState();
+
+    const getPickupCoordinates = () => {
+        const pickup = "Santa Monica";
 
         //Using fetch function
-        fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?` + 
+        fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${pickup}.json?` + 
             new URLSearchParams({
-                access_token: "pk.eyJ1IjoiYWRhbTA0MDk5MiIsImEiOiJja3Z1dnk0cjQwNHF0Mm9waDB5bTNrejVtIn0.8tVmWw0pmqy6naxWM-N0xQ"
+                access_token: "pk.eyJ1IjoiYWRhbTA0MDk5MiIsImEiOiJja3Z1dnk0cjQwNHF0Mm9waDB5bTNrejVtIn0.8tVmWw0pmqy6naxWM-N0xQ",
+                limit: 1
             })
         )
         .then(response => response.json())
         .then(data => {
-            console.log(data)
+            setPickupCoordinates(data.features[0].center);
+        })
+    }
+
+    const getDropoffCoordinates = () => {
+        const dropoff = "Los Angeles";
+
+        //Using fetch function
+        fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${dropoff}.json?` + 
+            new URLSearchParams({
+                access_token: "pk.eyJ1IjoiYWRhbTA0MDk5MiIsImEiOiJja3Z1dnk0cjQwNHF0Mm9waDB5bTNrejVtIn0.8tVmWw0pmqy6naxWM-N0xQ",
+                limit: 1
+            })
+        )
+        .then(response => response.json())
+        .then(data => {
+            setDropoffCoordinates(data.features[0].center);
         })
     }
     
     useEffect(() => {
-        getCoordinates();
+        getPickupCoordinates();
+        getDropoffCoordinates();
     }, [])
 
     return (
         <Wrapper>
-            <Map />
+            <Map 
+                pickupCoordinates={pickupCoordinates} 
+                dropoffCoordinates={dropoffCoordinates} 
+            />
 
             <RightContainer>
                 Ride Selector
