@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react';
 import tw from "tailwind-styled-components";
 import Map from './components/Map'
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 
 
 const Confirm = () => {
 
+    const router = useRouter()
+    const { pickup, dropoff } = router.query;
+
     const [ pickupCoordinates, setPickupCoordinates ] = useState();
     const [ dropoffCoordinates, setDropoffCoordinates ] = useState();
 
-    const getPickupCoordinates = () => {
-        const pickup = "Santa Monica";
+    const getPickupCoordinates = (pickup) => {
+        // const pickup = "Santa Monica";
 
         //Using fetch function
         fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${pickup}.json?` + 
@@ -25,8 +28,8 @@ const Confirm = () => {
         })
     }
 
-    const getDropoffCoordinates = () => {
-        const dropoff = "Los Angeles";
+    const getDropoffCoordinates = (dropoff) => {
+        // const dropoff = "Los Angeles";
 
         //Using fetch function
         fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${dropoff}.json?` + 
@@ -42,9 +45,9 @@ const Confirm = () => {
     }
     
     useEffect(() => {
-        getPickupCoordinates();
-        getDropoffCoordinates();
-    }, [])
+        getPickupCoordinates(pickup);
+        getDropoffCoordinates(dropoff);
+    }, [pickup, dropoff])
 
     return (
         <Wrapper>
