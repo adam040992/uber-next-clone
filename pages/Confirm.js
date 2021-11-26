@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import tw from "tailwind-styled-components";
 import Map from './components/Map'
+import Router from 'next/router';
+
 
 const Confirm = () => {
 
