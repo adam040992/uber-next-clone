@@ -82,10 +82,10 @@ const RideContainer = tw.div`
 `;
 
 const ConfirmButtonContainer = tw.div`
-    bg-black text-white 
+    border-t-2
 `;
 
 const ConfirmButton = tw.div`
-    
+    bg-black text-white my-4 mx-4 py-4 text-center text-xl cursor-pointer
 `
 
