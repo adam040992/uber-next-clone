@@ -13,22 +13,16 @@ const RideSelector = () => {
             </Title>
 
             <CarList>
-                { carList.map((car) => (
-                    <Car>
+                { carList.map((car, index) => (
+                    <Car key={index}>
                         <CarImage src={car.imgUrl} />
-
                         <CarDetails>
                             <Service>
                                 {car.service}
                             </Service>
-                            <Time>
-                                6 min away
-                            </Time>
+                            <Time>6 min away</Time>
                         </CarDetails>
-
-                        <Price>
-                            $24.00
-                        </Price>
+                        <Price>$24.00</Price>
                     </Car>
                 )) }
             </CarList>
@@ -40,14 +34,16 @@ const RideSelector = () => {
 export default RideSelector
 
 const Wrapper = tw.div`
-    flex-1
+    flex-1 flex flex-col overflow-y-scroll
 `
 
 const Title = tw.div`
     text-gray-500 text-center text-xs py-2 border-b
 `;
 
-const CarList = tw.div``;
+const CarList = tw.div`
+    overflow-y-scroll
+`;
 
 const Car = tw.div`
     flex p-4 items-center
