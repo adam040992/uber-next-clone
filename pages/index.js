@@ -1,11 +1,33 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Head from 'next/head'
 import Image from 'next/image'
 import tw from "tailwind-styled-components";
 import Map from './components/Map';
 import Link from 'next/link';
+import { auth } from '../firebase';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { useRouter } from 'next/router';
 
 export default function Home() {
+
+  const [user, setUser] = useState(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    return onAuthStateChanged(auth, user => {
+      console.log(user);
+      if (user) {
+        setUser({
+          name: user.displayName,
+          photoUrl: user.photoURL,
+        })
+      } else {
+        setUser(null);
+        router.push('/login')
+      }
+    })
+  }, [])
+
   return (
     <Wrapper>
       <Map />
@@ -14,8 +36,11 @@ export default function Home() {
         <Header>
           <UberLogo src="https://download.logo.wine/logo/Uber/Uber-Logo.wine.png" />
           <Profile>
-            <Name>Adam Walter</Name>
-            <UserImage src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8iusw0RyH9Z6_3SKer7Gpa9Cv8Zc4MD3DWN4jYG1VHO0hBiNsRmioDtR3HYzvOmozrAc&usqp=CAU"/>
+            <Name>{user && user.name}</Name>
+            <UserImage 
+              onClick={() => signOut(auth)} 
+              src={user && user.photoUrl}
+            />
           </Profile>
         </Header>
 
@@ -70,7 +95,7 @@ const Name = tw.div`
 `;
 
 const UserImage = tw.img`
-  h-12 w-12 rounded-full border-gray-200 p-px
+  h-12 w-12 rounded-full border-gray-200 p-px cursor-pointer
 `;
 
 const ActionButtons = tw.div`
